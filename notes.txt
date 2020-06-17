@@ -1,0 +1,25 @@
+Two files with 10k rows and 2MB size:
+- File parsing and cleaning: 5 seconds each file
+- File preparation for training 16.5 min, 2.5 GB of RAM, 16-17% CPU
+- Manual training 50 min: 52 records, 45 pos, 5 neg, 2 unsure
+- Found 1,936 dupes in 30 seconds 
+
+Two files 105K rows and 20MB:
+- Use previous training file
+- found 36,374 dupes in 5 min
+
+
+Recommendations for future tasks
+- Train ML to only focus on person specific data points (name, email, phone, address) and maybe NPI
+- Create service to combine clusters into single records aggregated by column
+- Create uniform data set column definitions for other records (definitive, modio, locumsmart, etc)
+- Create service to combine initial csv data into one csv before input to dedupe
+
+
+Possible
+- Run data set through dedupe to find records
+- Create service to combine duplicate records into unique record data set/pool? 
+-- Or create API around first pool with cluster dedupe IDS
+---This API would faciliate the ability of users to 'clean' the pool but retrieving clusters and transforming them into a single record
+-- API endpoint to add single records to the pool (check for potential match and upsert as applicable)
+-- API endpoint to add bulk data sets to the pool
