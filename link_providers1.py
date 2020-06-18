@@ -83,12 +83,12 @@ if __name__ == '__main__':
 
     # ## Setup
 
-    output_file = 'data_matching_output.csv'
-    settings_file = 'data_matching_learned_settings'
-    training_file = 'data_matching_training.json'
+    output_file = 'data-output/data_matching_output.csv'
+    settings_file = 'data-training/data_matching_learned_settings'
+    training_file = 'data-training/data_matching_training.json'
 
-    left_file = 'FoxWBYProvider_10k.csv'
-    right_file = 'FoxCHSProvider_10k.csv'
+    left_file = 'data-input/FoxWBYProvider_10k.csv'
+    right_file = 'data-input/FoxCHSProvider_10k.csv'
 
     printComment('Importing first data file...')
     data_1 = readData(left_file)

@@ -11,6 +11,7 @@ Two files 105K rows and 20MB:
 
 Recommendations for future tasks
 - Train ML to only focus on person specific data points (name, email, phone, address) and maybe NPI
+- Separate dedupe into separate training and dedupe services
 - Create service to combine clusters into single records aggregated by column
 - Create uniform data set column definitions for other records (definitive, modio, locumsmart, etc)
 - Create service to combine initial csv data into one csv before input to dedupe
