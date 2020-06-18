@@ -49,8 +49,9 @@ def readData(filename):
     data_d = {}
     with open(filename) as f:
         reader = csv.DictReader(f)
-        for row in reader:
+        for i, row in enumerate(reader):
             clean_row = dict([(k, preProcess(v)) for (k, v) in row.items()])
+            data_d[filename + str(i)] = dict(clean_row)
 
     return data_d
 
@@ -86,8 +87,8 @@ if __name__ == '__main__':
 
     input_file = 'data-input/FoxCHSProviderWithID_10k.csv'
     output_file = 'data-output/single_csv_provider_output.csv'
-    settings_file = 'data-old-training/data_matching_learned_settings'
-    training_file = 'data-old-training/data_matching_training.json'
+    settings_file = 'data-training/single_csv_provider_learned_settings'
+    training_file = 'data-training/single_csv_provider_training.json'
 
     printComment('importing data ...')
     data_d = readData(input_file)
@@ -102,11 +103,15 @@ if __name__ == '__main__':
         printComment('Preparing training')
         # Define the fields dedupe will pay attention to
         fields = [
-            {'field': 'Site name', 'type': 'String'},
-            {'field': 'Address', 'type': 'String'},
-            {'field': 'Zip', 'type': 'Exact', 'has missing': True},
-            {'field': 'Phone', 'type': 'String', 'has missing': True},
-            ]
+            {'field': 'FULL_NAME', 'type': 'Name'},
+            {'field': 'EMAIL', 'type': 'String','has missing': True},
+            {'field': 'ADDRESS_1', 'type': 'String','has missing': True},
+            {'field': 'ADDRESS_2', 'type': 'String','has missing': True},
+            {'field': 'CITY', 'type': 'ShortString','has missing': True},
+            {'field': 'STATE', 'type': 'ShortString','has missing': True},
+            {'field': 'ZIPCODE', 'type': 'ShortString','has missing': True},
+            {'field': 'PHONE', 'type': 'String','has missing': True},
+            {'field': 'NPI_NUMBER', 'type': 'ShortString','has missing': True}]
 
         # Create a new deduper object and pass our data model to it.
         deduper = dedupe.Dedupe(fields)
