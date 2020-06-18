@@ -176,6 +176,10 @@ if __name__ == '__main__':
                 "confidence_score": score
             }
 
+    if not os.path.isfile(output_file):
+        os.makedirs(os.path.dirname(output_file), exist_ok=True)
+        open(output_file, 'w+').close()
+
     with open(output_file, 'w') as f_output, io.open(input_file, "r", encoding='utf-8-sig') as f_input:
 
         reader = csv.DictReader(f_input)
