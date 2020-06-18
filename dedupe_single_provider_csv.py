@@ -19,6 +19,7 @@ import csv
 import re
 import logging
 import optparse
+import io
 
 import dedupe
 from unidecode import unidecode
@@ -47,11 +48,12 @@ def readData(filename):
     """
 
     data_d = {}
-    with open(filename) as f:
+    with io.open(filename, "r", encoding='utf-8-sig') as f:
         reader = csv.DictReader(f)
         for i, row in enumerate(reader):
-            clean_row = dict([(k, preProcess(v)) for (k, v) in row.items()])
-            data_d[filename + str(i)] = dict(clean_row)
+            clean_row = [(k, preProcess(v)) for (k, v) in row.items()]
+            row_id = int(row['ID'])
+            data_d[row_id] = dict(clean_row)
 
     return data_d
 
@@ -85,7 +87,7 @@ if __name__ == '__main__':
 
     # ## Setup
 
-    input_file = 'data-input/FoxCHSProviderWithID_10k.csv'
+    input_file = 'data-input/unified_provider_data_training_set.csv'
     output_file = 'data-output/single_csv_provider_output.csv'
     settings_file = 'data-training/single_csv_provider_learned_settings'
     training_file = 'data-training/single_csv_provider_training.json'
@@ -174,7 +176,7 @@ if __name__ == '__main__':
                 "confidence_score": score
             }
 
-    with open(output_file, 'w') as f_output, open(input_file) as f_input:
+    with open(output_file, 'w') as f_output, io.open(input_file, "r", encoding='utf-8-sig') as f_input:
 
         reader = csv.DictReader(f_input)
         fieldnames = ['Cluster ID', 'confidence_score'] + reader.fieldnames
@@ -183,6 +185,6 @@ if __name__ == '__main__':
         writer.writeheader()
 
         for row in reader:
-            row_id = int(row['Id'])
+            row_id = int(row['ID'])
             row.update(cluster_membership[row_id])
             writer.writerow(row)

@@ -8,6 +8,12 @@ Two files 105K rows and 20MB:
 - Use previous training file
 - found 36,374 dupes in 5 min
 
+Single File 14K rows and 1.4 MB
+- File parsing 5 sec
+- File preparation for training 150 sec, 400 MB of RAM
+- Manual training 23 min: 162 records, 42 pos, 115 neg, 5 unsure
+- Found 13,517 dupes in 2 seconds 
+
 
 Recommendations for future tasks
 - Train ML to only focus on person specific data points (name, email, phone, address) and maybe NPI
