@@ -87,8 +87,8 @@ if __name__ == '__main__':
     settings_file = 'data-training/data_matching_learned_settings'
     training_file = 'data-training/data_matching_training.json'
 
-    left_file = 'data-input/FoxWBYProvider_10k.csv'
-    right_file = 'data-input/FoxCHSProvider_10k.csv'
+    left_file = 'data-input/FoxWBYProviderWithID_10k.csv'
+    right_file = 'data-input/FoxCHSProviderWithID_10k.csv'
 
     printComment('Importing first data file...')
     data_1 = readData(left_file)
@@ -115,11 +115,8 @@ if __name__ == '__main__':
             {'field': 'CITY__C', 'type': 'ShortString','has missing': True},
             {'field': 'STATE__C', 'type': 'ShortString','has missing': True},
             {'field': 'ZIPCODE__C', 'type': 'ShortString','has missing': True},
-            {'field': 'STATE_LICENSES__C', 'type': 'Set','has missing': True},
-            {'field': 'NPI_NUMBER__C', 'type': 'ShortString','has missing': True},
             {'field': 'PHONE', 'type': 'String','has missing': True},
-            {'field': 'PrimarySpecialtyName', 'type': 'String','has missing': True},
-            {'field': 'JDE_NUMBER__C', 'type': 'ShortString','has missing': True}]
+            {'field': 'NPI_NUMBER__C', 'type': 'ShortString','has missing': True}]
 
         # Create a new linker object and pass our data model to it.
         linker = dedupe.RecordLink(fields)
