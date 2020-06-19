@@ -21,18 +21,39 @@ Single file 2.25 million rows and 235 MB
 Single file 100k rows and 10.7 MB
 - File processing took 10sec
 
+Recreated training file to match ids
+Single File training 20k rows
+- File cleanup in 1 sec
+- Training preparation took 4:25 and used 7.5 Gb RAM and 25% CPU on command prompt shell
+- Trained for 18 min and used 139 records: 50 pos 80 neg 9 unsure
+- Processed dedupes in 9 seconds
+
+Single File run after training 40k rows
+- File cleanup in 2 sec
+- Processed dedupes in 16 seconds
+
+Single File run after training 200k rows
+- File cleanup in 11 sec
+- Processed dedupes in 56 seconds
+
+Single File run after training 400k rows
+- File cleanup in 23 sec
+- Processed dedupes in 1:42 seconds
+
+Single File run after training - 2.25M rows
+- File cleanup in 2:22 sec
+- Processed dedupes
+
+Takeaways
+- the ML training file needs to match the schema of the data it is deduping. Will not throw an error otherwise and takes forever
+- Run the python script through a shell separate from Visual Studio Code as there is significant overhead for some reason otherwise.
+- Run the script on a machine real or virtual with extensive bandwidth to CPU and RAM - WSL may have slowed down the process extensively
+- ML was able to accurately find matches in disparate data sets and produce a record of clustered duplicates
+- Using node with read and write streams seems to be the optimal path to create an initial csv data lake or other file structure
+
 Recommendations for future tasks
 - Train ML to only focus on person specific data points (name, email, phone, address) and maybe NPI
 - Separate dedupe into separate training and dedupe services
 - Create service to combine clusters into single records aggregated by column
 - Create uniform data set column definitions for other records (definitive, modio, locumsmart, etc)
 - Create service to combine initial csv data into one csv before input to dedupe
-
-
-Possible
-- Run data set through dedupe to find records
-- Create service to combine duplicate records into unique record data set/pool? 
--- Or create API around first pool with cluster dedupe IDS
----This API would faciliate the ability of users to 'clean' the pool but retrieving clusters and transforming them into a single record
--- API endpoint to add single records to the pool (check for potential match and upsert as applicable)
--- API endpoint to add bulk data sets to the pool

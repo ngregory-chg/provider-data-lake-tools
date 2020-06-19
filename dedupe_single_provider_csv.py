@@ -87,8 +87,8 @@ if __name__ == '__main__':
 
     # ## Setup
 
-    input_file = 'data-input/full_provider_data_set_20k.csv'
-    output_file = 'data-output/single_csv_provider_output.csv'
+    input_file = 'data-input/full_provider_data_set.csv'
+    output_file = 'data-output/single_csv_provider_output_full.csv'
     settings_file = 'data-training/single_csv_provider_learned_settings'
     training_file = 'data-training/single_csv_provider_training.json'
 
@@ -176,7 +176,7 @@ if __name__ == '__main__':
                 "confidence_score": score
             }
 
-    with open(output_file, 'w', newline='') as f_output, io.open(input_file, "r", encoding='utf-8-sig') as f_input:
+    with open(output_file, 'w', newline='', encoding="utf-8") as f_output, io.open(input_file, "r", encoding='utf-8-sig') as f_input:
 
         reader = csv.DictReader(f_input)
         fieldnames = ['Cluster ID', 'confidence_score'] + reader.fieldnames
