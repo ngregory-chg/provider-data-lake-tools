@@ -87,7 +87,7 @@ if __name__ == '__main__':
 
     # ## Setup
 
-    input_file = 'data-input/unified_provider_data_training_set.csv'
+    input_file = 'data-input/full_provider_data_set_20k.csv'
     output_file = 'data-output/single_csv_provider_output.csv'
     settings_file = 'data-training/single_csv_provider_learned_settings'
     training_file = 'data-training/single_csv_provider_training.json'

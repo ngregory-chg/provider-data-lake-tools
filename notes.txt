@@ -14,6 +14,12 @@ Single File 14K rows and 1.4 MB
 - Manual training 23 min: 162 records, 42 pos, 115 neg, 5 unsure
 - Found 13,517 dupes in 2 seconds 
 
+Single file 2.25 million rows and 235 MB
+- File processing took 5min 30sec
+- File deduping took 18 hours and did not finish
+
+Single file 100k rows and 10.7 MB
+- File processing took 10sec
 
 Recommendations for future tasks
 - Train ML to only focus on person specific data points (name, email, phone, address) and maybe NPI
