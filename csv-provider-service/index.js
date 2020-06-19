@@ -44,15 +44,24 @@ try {
 }
 // reorder csv
 const csvObj = []
+/**
+ * The merge sort function 
+ * Sorts by `Cluster ID` field
+ */
 const mergeSortCompare = (left, leftIndex, right, rightIndex) => {
     const leftCompare = typeof left[leftIndex] === 'undefined' ? undefined : left[leftIndex]['Cluster ID'];
     const rightCompare = typeof right[rightIndex] === 'undefined' ? undefined : right[rightIndex]['Cluster ID'];
     return leftCompare < rightCompare;
 };
 
+// parse the csv and covert into a JS array of objects
 csvService.parseCsv(args.sourceCsv, csvObj).then(data => {
-    let sortedData = mergeSort(data, mergeSortCompare)
-    let condensedData = csvCondenser.condense(sortedData)
+    // sor the data by `Cluster ID` ascending
+    const sortedData = mergeSort(data, mergeSortCompare);
+    // Aggregate the cluster data into a set of unique records
+    const condensedData = csvCondenser.condense(sortedData);
+
+    // output the new aggregated data into a csv
     console.log(condensedData)
 }).catch(err => {
     stopProcessWithError(err);
