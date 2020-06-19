@@ -20,6 +20,7 @@ exports.getEnvironmentVariable = (environmentVariable, defaultValue = null) => {
 exports.handleArgs = () => {
     const args = require('yargs').argv;
     const sourceCsv = args.csvFile;
+    const outputCsv = args.outputCsv;
     const isAppend = args.append || false;
 
     if(!sourceCsv || !fs.existsSync(sourceCsv)) {
@@ -28,7 +29,8 @@ exports.handleArgs = () => {
 
     return {
         sourceCsv,
-        isAppend
+        isAppend,
+        outputCsv
     };
 };
 

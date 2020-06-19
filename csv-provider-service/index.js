@@ -8,9 +8,10 @@ global.rootPath = __dirname;
 global.log = require('./src/utils/logging').init();
 
 const csvService = require('./src/services/csvParser');
-const csvCondenser = require('./src/services/csvClusterCondenser')
+const csvCondenser = require('./src/services/csvClusterCondenser');
 const { handleArgs, mergeSort } = require('./src/utils/util');
 const terminal = require('./src/utils/terminal');
+const csvCreateService = require('./src/services/csvCreate.service');
 
 // Set process flags and function for app stability
 process.on('SIGINT', () => {
@@ -56,13 +57,18 @@ const mergeSortCompare = (left, leftIndex, right, rightIndex) => {
 
 // parse the csv and covert into a JS array of objects
 csvService.parseCsv(args.sourceCsv, csvObj).then(data => {
-    // sor the data by `Cluster ID` ascending
+    // sort the data by `Cluster ID` ascending
+    global.log.info('Sorting cluster data');
     const sortedData = mergeSort(data, mergeSortCompare);
+
     // Aggregate the cluster data into a set of unique records
+    global.log.info('Aggregating cluster data');
     const condensedData = csvCondenser.condense(sortedData);
 
     // output the new aggregated data into a csv
-    console.log(condensedData)
+    global.log.info(`Saving aggregated cluster data to '${args.outputCsv}'`);
+    csvCreateService.arrToCsv(condensedData, args.outputCsv);
+    global.log.info('Process complete');
 }).catch(err => {
     stopProcessWithError(err);
 });
