@@ -8,9 +8,10 @@ global.rootPath = __dirname;
 global.log = require('./src/utils/logging').init();
 
 const csvService = require('./src/services/csvParser');
-const csvCondenser = require('./src/services/csvClusterCondenser')
+const csvCondenser = require('./src/services/csvClusterCondenser');
 const { handleArgs, mergeSort } = require('./src/utils/util');
 const terminal = require('./src/utils/terminal');
+const csvCreateService = require('./src/services/csvCreate.service');
 
 // Set process flags and function for app stability
 process.on('SIGINT', () => {
@@ -44,16 +45,30 @@ try {
 }
 // reorder csv
 const csvObj = []
+/**
+ * The merge sort function 
+ * Sorts by `Cluster ID` field
+ */
 const mergeSortCompare = (left, leftIndex, right, rightIndex) => {
     const leftCompare = typeof left[leftIndex] === 'undefined' ? undefined : left[leftIndex]['Cluster ID'];
     const rightCompare = typeof right[rightIndex] === 'undefined' ? undefined : right[rightIndex]['Cluster ID'];
     return leftCompare < rightCompare;
 };
 
+// parse the csv and covert into a JS array of objects
 csvService.parseCsv(args.sourceCsv, csvObj).then(data => {
-    let sortedData = mergeSort(data, mergeSortCompare)
-    let condensedData = csvCondenser.condense(sortedData)
-    console.log(condensedData)
+    // sort the data by `Cluster ID` ascending
+    global.log.info('Sorting cluster data');
+    const sortedData = mergeSort(data, mergeSortCompare);
+
+    // Aggregate the cluster data into a set of unique records
+    global.log.info('Aggregating cluster data');
+    const condensedData = csvCondenser.condense(sortedData);
+
+    // output the new aggregated data into a csv
+    global.log.info(`Saving aggregated cluster data to '${args.outputCsv}'`);
+    csvCreateService.arrToCsv(condensedData, args.outputCsv);
+    global.log.info('Process complete');
 }).catch(err => {
     stopProcessWithError(err);
 });
