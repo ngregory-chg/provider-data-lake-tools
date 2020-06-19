@@ -176,7 +176,7 @@ if __name__ == '__main__':
                 "confidence_score": score
             }
 
-    with open(output_file, 'w') as f_output, io.open(input_file, "r", encoding='utf-8-sig') as f_input:
+    with open(output_file, 'w', newline='') as f_output, io.open(input_file, "r", encoding='utf-8-sig') as f_input:
 
         reader = csv.DictReader(f_input)
         fieldnames = ['Cluster ID', 'confidence_score'] + reader.fieldnames
